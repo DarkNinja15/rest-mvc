@@ -3,11 +3,15 @@ package com.example.restweb.springrest.services;
 import com.example.restweb.springrest.dto.EmployeeDTO;
 import com.example.restweb.springrest.entity.EmployeeEntity;
 import com.example.restweb.springrest.repositories.EmployeeRepository;
+import org.apache.el.util.ReflectionUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ReflectionUtils;
 
+import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -38,5 +42,18 @@ public class EmployeeService {
         return employees.stream().map(employeeEntity -> {
             return modelMapper.map(employeeEntity,EmployeeDTO.class);
         }).collect(Collectors.toList());
+    }
+
+    public EmployeeDTO updateEmployeeById(Long employeeId, Map<String,Object> updates) {
+        EmployeeEntity employee = employeeRepository.findById(employeeId).get();
+
+        updates.forEach((field,value)->{
+            Field fieldToBeUpdated = ReflectionUtils.findField(EmployeeEntity.class,field);
+            fieldToBeUpdated.setAccessible(true);
+            ReflectionUtils.setField(fieldToBeUpdated,employee,value);
+        });
+
+        return modelMapper.map(employeeRepository.save(employee),EmployeeDTO.class);
+
     }
 }

@@ -5,6 +5,7 @@ import com.example.restweb.springrest.services.EmployeeService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class EmployeeController {
@@ -28,5 +29,10 @@ public class EmployeeController {
     @GetMapping(path = "/employees")
     public List<EmployeeDTO> getAllEmployees(){
         return employeeService.getAllEmployees();
+    }
+
+    @PatchMapping(path = "/employee/{employeeId}")
+    public EmployeeDTO updateEmployeeById(@RequestBody Map<String,Object> updates, @PathVariable Long employeeId){
+        return employeeService.updateEmployeeById(employeeId,updates);
     }
 }
