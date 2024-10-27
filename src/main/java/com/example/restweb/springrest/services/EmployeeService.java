@@ -56,4 +56,12 @@ public class EmployeeService {
         return modelMapper.map(employeeRepository.save(employee),EmployeeDTO.class);
 
     }
+
+    public Boolean deleteEmployee(Long employeeId) {
+        EmployeeEntity employee = employeeRepository.findById(employeeId).orElse(null);
+        if(employee==null)
+            return false;
+        employeeRepository.deleteById(employeeId);
+        return true;
+    }
 }
