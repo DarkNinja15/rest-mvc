@@ -7,6 +7,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class EmployeeService {
@@ -21,9 +23,20 @@ public class EmployeeService {
 
     public EmployeeDTO findById(Long employeeId) {
         EmployeeEntity employeeEntity = employeeRepository.findById(employeeId).orElse(null);
-        if(employeeEntity==null){
-            return new EmployeeDTO(employeeId,"Anime","email",12, LocalDate.of(2024,3,2),false);
-        }
+
         return modelMapper.map(employeeEntity,EmployeeDTO.class);
+    }
+
+    public EmployeeDTO createEmployee(EmployeeDTO employeeDTO) {
+        EmployeeEntity toSaveEntity = modelMapper.map(employeeDTO,EmployeeEntity.class);
+        employeeRepository.save(toSaveEntity);
+        return employeeDTO;
+    }
+
+    public List<EmployeeDTO> getAllEmployees() {
+        List<EmployeeEntity> employees=employeeRepository.findAll();
+        return employees.stream().map(employeeEntity -> {
+            return modelMapper.map(employeeEntity,EmployeeDTO.class);
+        }).collect(Collectors.toList());
     }
 }

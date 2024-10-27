@@ -1,20 +1,13 @@
 package com.example.restweb.springrest.controller;
 
 import com.example.restweb.springrest.dto.EmployeeDTO;
-import com.example.restweb.springrest.entity.EmployeeEntity;
 import com.example.restweb.springrest.services.EmployeeService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 public class EmployeeController {
-//    @GetMapping(path = "/getSecretMessage")
-//    public String getMySuperSecretMessage(){
-//        return "143";
-//    }
 
     private final EmployeeService employeeService;
 
@@ -22,8 +15,18 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
-    @GetMapping(path="/getEmployee/{employeeId}")
+    @GetMapping(path="/employee/{employeeId}")
     public EmployeeDTO getEmployeeById(@PathVariable Long employeeId){
         return employeeService.findById(employeeId);
+    }
+
+    @PostMapping(path = "/employee")
+    public EmployeeDTO createEmployee(@RequestBody EmployeeDTO employeeDTO){
+        return employeeService.createEmployee(employeeDTO);
+    }
+
+    @GetMapping(path = "/employees")
+    public List<EmployeeDTO> getAllEmployees(){
+        return employeeService.getAllEmployees();
     }
 }
