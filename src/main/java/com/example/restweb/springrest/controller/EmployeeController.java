@@ -2,6 +2,7 @@ package com.example.restweb.springrest.controller;
 
 import com.example.restweb.springrest.dto.EmployeeDTO;
 import com.example.restweb.springrest.services.EmployeeService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +26,7 @@ public class EmployeeController {
     }
 
     @PostMapping(path = "/employee")
-    public ResponseEntity<EmployeeDTO> createEmployee(@RequestBody EmployeeDTO employeeDTO){
+    public ResponseEntity<EmployeeDTO> createEmployee(@RequestBody @Valid EmployeeDTO employeeDTO){
         EmployeeDTO savedEmployee = employeeService.createEmployee(employeeDTO);
         return ResponseEntity.status(HttpStatus.OK).body(savedEmployee);
     }
