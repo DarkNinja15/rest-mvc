@@ -24,7 +24,7 @@ public class EmployeeDTO {
     @Email(message = "Validation Error: Email is not valid!")
     private String email;
 
-    @NotBlank(message = "Validation Error: Age cannot be empty!")
+
     @Max(value = 80, message = "Validation Error: Age of employee cannot be greater than 80!")
     @Min(value = 18, message = "Validation Error: Age of employee cannot be lesser than 18!")
     private Integer age;
@@ -34,10 +34,9 @@ public class EmployeeDTO {
     @EmployeeRoleValidation
     private String role;
 
-    @NotBlank(message = "Validation Error: Salary cannot be empty!")
     @Digits(integer = 6,fraction = 2, message = "Validation Error: Salary is not in the required range!")
     @DecimalMin(value = "100.50", message = "Validation Error: Salary should be greater than 100.50!")
-    @DecimalMin(value = "100000.99", message = "Validation Error: Salary should be lesser than 100000.99!")
+    @DecimalMax(value = "100000.99", message = "Validation Error: Salary should be lesser than 100000.99!")
     private Double salary;
 
     @PastOrPresent(message = "Validation Error: Date is not a valid past date!")

@@ -1,14 +1,17 @@
 package com.example.restweb.springrest.controller;
 
 import com.example.restweb.springrest.dto.EmployeeDTO;
+import com.example.restweb.springrest.exceptions.ResourceNotFoundException;
 import com.example.restweb.springrest.services.EmployeeService;
 import jakarta.validation.Valid;
+import org.modelmapper.internal.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 @RestController
 public class EmployeeController {
@@ -22,6 +25,9 @@ public class EmployeeController {
     @GetMapping(path="/employee/{employeeId}")
     public ResponseEntity<EmployeeDTO> getEmployeeById(@PathVariable Long employeeId){
         EmployeeDTO employeeDTO = employeeService.findById(employeeId);
+        if(employeeDTO==null){
+            throw new ResourceNotFoundException("Employee Not Found");
+        }
         return ResponseEntity.status(HttpStatus.OK).body(employeeDTO);
     }
 
