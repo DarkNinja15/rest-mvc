@@ -1,5 +1,6 @@
 package com.example.restweb.springrest.dto;
 
+import com.example.restweb.springrest.annotations.EmployeeRoleValidation;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,7 +30,8 @@ public class EmployeeDTO {
     private Integer age;
 
     @NotBlank(message = "Validation Error: Role cannot be empty!")
-    @Pattern(regexp = "^(ADMIN|USER)$",message = "Validation Error: Invalid employee role!")
+//    @Pattern(regexp = "^(ADMIN|USER)$",message = "Validation Error: Invalid employee role!")
+    @EmployeeRoleValidation
     private String role;
 
     @NotBlank(message = "Validation Error: Salary cannot be empty!")
